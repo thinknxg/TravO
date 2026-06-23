@@ -1,6 +1,6 @@
 # Rental &amp; Tours (`rental_tour_booking`)
 
-A complete Frappe **v16** app for **Car Rental Booking** and **Tour Package Booking**, built for the GCC market (defaults: OMR currency, 5% VAT, Oman-oriented terms).
+A complete thinkNXG **v16** app for **Car Rental Booking** and **Tour Package Booking**, built for the GCC market (defaults: OMR currency, 5% VAT, Oman-oriented terms).
 
 ## What's inside
 
@@ -71,4 +71,4 @@ rental_tour_booking/
 - **Sales Invoice bridge** (ERPNext): a **Create Sales Invoice** button on each booking, plus optional auto-creation on submit (toggle in **Rental Tour Settings**). Configure the rental/tour service Items, cost center, and a VAT tax template; the draft SI is linked back on the booking. Guarded so the app still installs without ERPNext.
 
 ---
-Built by **Kreatao** for Frappe/ERPNext v16.
+Built by **Kreatao** for thnkNXG v16.

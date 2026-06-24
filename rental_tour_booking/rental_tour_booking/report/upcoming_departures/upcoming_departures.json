@@ -1,0 +1,30 @@
+{
+ "add_total_row": 0,
+ "columns": [],
+ "creation": "2025-01-01 00:00:00.000000",
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "filters": [],
+ "idx": 0,
+ "is_standard": "Yes",
+ "letter_head": "",
+ "modified": "2025-01-01 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Rental Tour Booking",
+ "name": "Upcoming Departures",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "query": "SELECT\n         d.name AS \"Departure:Link/Tour Departure:200\",\n         d.tour_package AS \"Package:Link/Tour Package:200\",\n         d.departure_date AS \"Departs:Date:110\",\n         d.return_date AS \"Returns:Date:110\",\n         d.total_seats AS \"Seats:Int:80\",\n         d.available_seats AS \"Available:Int:90\",\n         d.status AS \"Status:Data:100\"\n       FROM `tabTour Departure` d\n       WHERE d.departure_date >= CURDATE()\n         AND d.status IN ('Scheduled', 'Confirmed', 'Full')\n       ORDER BY d.departure_date ASC",
+ "ref_doctype": "Tour Departure",
+ "report_name": "Upcoming Departures",
+ "report_type": "Query Report",
+ "roles": [
+  {
+   "role": "Tour Manager"
+  },
+  {
+   "role": "System Manager"
+  }
+ ]
+}

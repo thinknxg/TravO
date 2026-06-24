@@ -1,0 +1,167 @@
+{% extends "templates/web.html" %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block head_include %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#15212B;--sand:#F3EBDD;--paper:#FBF7F0;--coral:#E8593E;--teal:#2E7D74;--line:#E3D8C6;--muted:#6B6256;}
+  .co{font-family:'Inter',system-ui,sans-serif;color:var(--ink);max-width:960px;margin:0 auto;padding:48px 20px 80px}
+  .co h1{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(28px,4vw,40px);margin:0 0 6px}
+  .co .lede{color:var(--muted);margin:0 0 32px}
+  .grid{display:grid;grid-template-columns:1.3fr 1fr;gap:28px;align-items:start}
+  @media(max-width:760px){.grid{grid-template-columns:1fr}}
+  .panel{border:1px solid var(--line);border-radius:14px;background:#fff;padding:24px}
+  .veh-head{display:flex;gap:16px;align-items:center;margin-bottom:18px}
+  .veh-thumb{width:88px;height:64px;border-radius:9px;background:linear-gradient(135deg,var(--sand),#e8ddc8);object-fit:cover;flex:none}
+  .veh-cat{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);font-weight:600}
+  .veh-name{font-family:'Fraunces',serif;font-size:22px;font-weight:600;margin:2px 0 0}
+  .plate{display:inline-block;background:var(--ink);color:#F7D74A;font-family:'Fraunces',serif;font-weight:600;letter-spacing:.06em;padding:3px 10px;border-radius:5px;font-size:12px;border:2px solid #F7D74A;margin-top:6px}
+  label{display:block;font-size:13px;font-weight:600;margin:14px 0 6px}
+  input,select{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:9px;font-size:14px;font-family:inherit;background:var(--paper)}
+  input:focus,select:focus{outline:2px solid var(--coral);outline-offset:1px;border-color:transparent}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .btn{width:100%;border:0;border-radius:10px;padding:13px;font-weight:600;font-size:14px;cursor:pointer;margin-top:18px;transition:.15s}
+  .btn-ghost{background:var(--ink);color:var(--paper)}
+  .btn-ghost:hover{background:#0d171f}
+  .btn-go{background:var(--coral);color:#fff}
+  .btn-go:hover{background:#cf492f}
+  .btn:disabled{opacity:.45;cursor:not-allowed}
+  .summary dt{font-size:13px;color:var(--muted);margin-top:12px}
+  .summary dd{margin:2px 0 0;font-size:15px;font-weight:600}
+  .quote{border-top:1px dashed var(--line);margin-top:18px;padding-top:16px;display:none}
+  .quote.show{display:block}
+  .quote .total{font-family:'Fraunces',serif;font-size:30px;font-weight:600}
+  .note{font-size:12px;color:var(--muted);margin-top:6px}
+  .alert{padding:12px 14px;border-radius:9px;font-size:14px;margin-top:14px;display:none}
+  .alert.show{display:block}
+  .alert.ok{background:#e7f3f0;color:#1c5f56}
+  .alert.bad{background:#fbeae6;color:#a8341d}
+  .done{text-align:center;padding:10px 0}
+  .done .tick{width:54px;height:54px;border-radius:50%;background:var(--teal);color:#fff;display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 14px}
+  .missing{padding:40px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:14px}
+</style>
+{% endblock %}
+
+{% block page_content %}
+<div class="co">
+  <h1>Confirm your rental</h1>
+  <p class="lede">Choose your pickup details and we'll quote you instantly. Prices in {{ currency }}.</p>
+
+  {% if not vehicle %}
+  <div class="missing">We couldn't find that vehicle. <a href="/vehicles">Browse the fleet &rarr;</a></div>
+  {% else %}
+  <div class="grid">
+    <div class="panel" id="form-panel">
+      <div class="veh-head">
+        {% if vehicle.image %}<img class="veh-thumb" src="{{ vehicle.image }}" alt="">{% else %}<div class="veh-thumb"></div>{% endif %}
+        <div>
+          <div class="veh-cat">{{ vehicle.vehicle_category }}</div>
+          <div class="veh-name">{{ vehicle.vehicle_name }}</div>
+          <span class="plate">{{ vehicle.name }}</span>
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>Pick-up location</label>
+          <select id="pickup_location">
+            {% for l in locations %}<option value="{{ l.name }}">{{ l.location_name }}</option>{% endfor %}
+          </select>
+        </div>
+        <div>
+          <label>Drop-off location</label>
+          <select id="dropoff_location">
+            {% for l in locations %}<option value="{{ l.name }}">{{ l.location_name }}</option>{% endfor %}
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div><label>Pick-up date &amp; time</label><input type="datetime-local" id="pickup_dt"></div>
+        <div><label>Drop-off date &amp; time</label><input type="datetime-local" id="dropoff_dt"></div>
+      </div>
+
+      <button class="btn btn-ghost" id="check-btn">Check availability &amp; price</button>
+      <div class="alert" id="alert"></div>
+    </div>
+
+    <div class="panel summary">
+      <div style="font-family:'Fraunces',serif;font-size:18px;font-weight:600">Booking summary</div>
+      <dl>
+        <dt>Daily rate</dt><dd>{{ "%.2f"|format(vehicle.daily_rate or 0) }} {{ currency }}</dd>
+        <dt>Refundable deposit</dt><dd>{{ "%.2f"|format(vehicle.security_deposit or 0) }} {{ currency }}</dd>
+      </dl>
+      <div class="quote" id="quote">
+        <dt>Rental period</dt><dd id="q-days">&mdash;</dd>
+        <dt style="margin-top:14px">Estimated total (incl. VAT)</dt>
+        <div class="total"><span id="q-total">0.00</span> <span style="font-size:14px">{{ currency }}</span></div>
+        <button class="btn btn-go" id="confirm-btn" disabled>Confirm booking</button>
+        <p class="note">No payment is taken now. Our team will confirm and collect payment.</p>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+</div>
+
+<script>
+(function(){
+  var vehicle = {{ vehicle.name | tojson if vehicle else 'null' }};
+  if(!vehicle) return;
+  var alertBox=document.getElementById('alert');
+  var quote=document.getElementById('quote');
+  var confirmBtn=document.getElementById('confirm-btn');
+  var checkBtn=document.getElementById('check-btn');
+
+  function show(box,cls,msg){box.className='alert show '+cls;box.textContent=msg;}
+  function val(id){return document.getElementById(id).value;}
+
+  checkBtn.addEventListener('click',function(){
+    var p=val('pickup_dt'), d=val('dropoff_dt');
+    if(!p||!d){show(alertBox,'bad','Please choose both pick-up and drop-off times.');return;}
+    if(new Date(d)<=new Date(p)){show(alertBox,'bad','Drop-off must be after pick-up.');return;}
+    checkBtn.disabled=true;checkBtn.textContent='Checking…';
+    frappe.call({
+      method:'rental_tour_booking.api.check_vehicle_availability',
+      args:{vehicle:vehicle,pickup_datetime:p.replace('T',' '),dropoff_datetime:d.replace('T',' ')},
+      callback:function(r){
+        checkBtn.disabled=false;checkBtn.textContent='Re-check';
+        var m=r.message||{};
+        if(!m.available){show(alertBox,'bad','Sorry, this vehicle is already booked for those dates.');quote.classList.remove('show');return;}
+        show(alertBox,'ok','Available! See your quote on the right.');
+        document.getElementById('q-days').textContent=m.rental_days+' day(s)';
+        document.getElementById('q-total').textContent=(m.estimated_total||0).toFixed(2);
+        quote.classList.add('show');confirmBtn.disabled=false;
+      }
+    });
+  });
+
+  confirmBtn.addEventListener('click',function(){
+    confirmBtn.disabled=true;confirmBtn.textContent='Booking…';
+    frappe.call({
+      method:'rental_tour_booking.api.create_rental_request',
+      args:{
+        vehicle:vehicle,
+        pickup_location:val('pickup_location'),
+        dropoff_location:val('dropoff_location'),
+        pickup_datetime:val('pickup_dt').replace('T',' '),
+        dropoff_datetime:val('dropoff_dt').replace('T',' ')
+      },
+      callback:function(r){
+        var m=r.message;
+        if(m&&m.name){
+          document.getElementById('form-panel').innerHTML=
+            '<div class="done"><div class="tick">&#10003;</div>'+
+            '<div style="font-family:Fraunces,serif;font-size:22px;font-weight:600">Request received</div>'+
+            '<p class="note">Booking <b>'+m.name+'</b> is awaiting confirmation.</p>'+
+            '<a class="btn btn-go" style="display:inline-block;text-decoration:none;padding:11px 22px" href="/my-bookings">View my bookings</a></div>';
+        }else{
+          confirmBtn.disabled=false;confirmBtn.textContent='Confirm booking';
+          show(alertBox,'bad','Something went wrong. Please try again.');
+        }
+      },
+      error:function(){confirmBtn.disabled=false;confirmBtn.textContent='Confirm booking';show(alertBox,'bad','Could not complete the booking.');}
+    });
+  });
+})();
+</script>
+{% endblock %}

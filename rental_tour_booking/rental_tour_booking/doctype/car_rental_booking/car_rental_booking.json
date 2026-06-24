@@ -1,0 +1,403 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-01-01 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "customer",
+  "customer_name",
+  "contact_phone",
+  "contact_email",
+  "cb1",
+  "status",
+  "booking_date",
+  "sb_vehicle",
+  "vehicle",
+  "vehicle_category",
+  "daily_rate",
+  "security_deposit",
+  "cb2",
+  "pickup_location",
+  "dropoff_location",
+  "pickup_datetime",
+  "dropoff_datetime",
+  "rental_days",
+  "sb_driver",
+  "driver_required",
+  "assigned_driver",
+  "cb3",
+  "pickup_odometer",
+  "return_odometer",
+  "sb_extras",
+  "extras",
+  "sb_charges",
+  "base_amount",
+  "extras_amount",
+  "discount_amount",
+  "cb4",
+  "net_amount",
+  "vat_rate",
+  "vat_amount",
+  "grand_total",
+  "sb_payment",
+  "paid_amount",
+  "cb5",
+  "outstanding_amount",
+  "sb_accounting",
+  "sales_invoice",
+  "sb_terms",
+  "notes",
+  "terms",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Naming Series",
+   "options": "CRB-.YYYY.-",
+   "default": "CRB-.YYYY.-",
+   "hidden": 1
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "label": "Customer",
+   "options": "Customer",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "label": "Customer Name",
+   "fetch_from": "customer.customer_name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "contact_phone",
+   "fieldtype": "Data",
+   "label": "Contact Phone"
+  },
+  {
+   "fieldname": "contact_email",
+   "fieldtype": "Data",
+   "label": "Contact Email"
+  },
+  {
+   "fieldname": "cb1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Draft\nConfirmed\nActive\nCompleted\nCancelled",
+   "default": "Draft",
+   "read_only": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "booking_date",
+   "fieldtype": "Date",
+   "label": "Booking Date",
+   "default": "Today"
+  },
+  {
+   "fieldname": "sb_vehicle",
+   "fieldtype": "Section Break",
+   "label": "Vehicle & Schedule"
+  },
+  {
+   "fieldname": "vehicle",
+   "fieldtype": "Link",
+   "label": "Vehicle",
+   "options": "Rental Vehicle",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "vehicle_category",
+   "fieldtype": "Link",
+   "label": "Vehicle Category",
+   "options": "Vehicle Category",
+   "fetch_from": "vehicle.vehicle_category",
+   "read_only": 1
+  },
+  {
+   "fieldname": "daily_rate",
+   "fieldtype": "Currency",
+   "label": "Daily Rate",
+   "fetch_from": "vehicle.daily_rate",
+   "fetch_if_empty": 1
+  },
+  {
+   "fieldname": "security_deposit",
+   "fieldtype": "Currency",
+   "label": "Security Deposit",
+   "fetch_from": "vehicle.security_deposit",
+   "fetch_if_empty": 1
+  },
+  {
+   "fieldname": "cb2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "pickup_location",
+   "fieldtype": "Link",
+   "label": "Pickup Location",
+   "options": "Rental Location",
+   "reqd": 1
+  },
+  {
+   "fieldname": "dropoff_location",
+   "fieldtype": "Link",
+   "label": "Dropoff Location",
+   "options": "Rental Location"
+  },
+  {
+   "fieldname": "pickup_datetime",
+   "fieldtype": "Datetime",
+   "label": "Pickup Datetime",
+   "reqd": 1
+  },
+  {
+   "fieldname": "dropoff_datetime",
+   "fieldtype": "Datetime",
+   "label": "Dropoff Datetime",
+   "reqd": 1
+  },
+  {
+   "fieldname": "rental_days",
+   "fieldtype": "Int",
+   "label": "Rental Days",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sb_driver",
+   "fieldtype": "Section Break",
+   "label": "Driver & Odometer"
+  },
+  {
+   "fieldname": "driver_required",
+   "fieldtype": "Check",
+   "label": "Driver Required"
+  },
+  {
+   "fieldname": "assigned_driver",
+   "fieldtype": "Data",
+   "label": "Assigned Driver",
+   "depends_on": "driver_required"
+  },
+  {
+   "fieldname": "cb3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "pickup_odometer",
+   "fieldtype": "Int",
+   "label": "Pickup Odometer"
+  },
+  {
+   "fieldname": "return_odometer",
+   "fieldtype": "Int",
+   "label": "Return Odometer"
+  },
+  {
+   "fieldname": "sb_extras",
+   "fieldtype": "Section Break",
+   "label": "Extras"
+  },
+  {
+   "fieldname": "extras",
+   "fieldtype": "Table",
+   "label": "Extras",
+   "options": "Rental Booking Extra"
+  },
+  {
+   "fieldname": "sb_charges",
+   "fieldtype": "Section Break",
+   "label": "Charges"
+  },
+  {
+   "fieldname": "base_amount",
+   "fieldtype": "Currency",
+   "label": "Base Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "extras_amount",
+   "fieldtype": "Currency",
+   "label": "Extras Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "discount_amount",
+   "fieldtype": "Currency",
+   "label": "Discount Amount"
+  },
+  {
+   "fieldname": "cb4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "net_amount",
+   "fieldtype": "Currency",
+   "label": "Net Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "vat_rate",
+   "fieldtype": "Percent",
+   "label": "VAT Rate (%)"
+  },
+  {
+   "fieldname": "vat_amount",
+   "fieldtype": "Currency",
+   "label": "Vat Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "grand_total",
+   "fieldtype": "Currency",
+   "label": "Grand Total",
+   "read_only": 1,
+   "in_list_view": 1,
+   "bold": 1
+  },
+  {
+   "fieldname": "sb_payment",
+   "fieldtype": "Section Break",
+   "label": "Payment"
+  },
+  {
+   "fieldname": "paid_amount",
+   "fieldtype": "Currency",
+   "label": "Paid Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "cb5",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "outstanding_amount",
+   "fieldtype": "Currency",
+   "label": "Outstanding Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sb_accounting",
+   "fieldtype": "Section Break",
+   "label": "Accounting",
+   "depends_on": "eval:doc.sales_invoice"
+  },
+  {
+   "fieldname": "sales_invoice",
+   "fieldtype": "Link",
+   "label": "Sales Invoice",
+   "options": "Sales Invoice",
+   "read_only": 1,
+   "no_copy": 1,
+   "depends_on": "sales_invoice"
+  },
+  {
+   "fieldname": "sb_terms",
+   "fieldtype": "Section Break",
+   "label": "Terms & Notes"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  },
+  {
+   "fieldname": "terms",
+   "fieldtype": "Text Editor",
+   "label": "Terms"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "options": "Car Rental Booking",
+   "read_only": 1,
+   "no_copy": 1,
+   "print_hide": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-01-01 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Rental Tour Booking",
+ "name": "Car Rental Booking",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "report": 1,
+   "share": 1,
+   "write": 1,
+   "create": 1,
+   "submit": 1,
+   "cancel": 1,
+   "delete": 1
+  },
+  {
+   "role": "Rental Manager",
+   "read": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "report": 1,
+   "share": 1,
+   "write": 1,
+   "create": 1,
+   "submit": 1,
+   "cancel": 1,
+   "delete": 1
+  },
+  {
+   "role": "Tour Manager",
+   "read": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "report": 1,
+   "share": 1,
+   "write": 1,
+   "create": 1,
+   "submit": 1,
+   "cancel": 1,
+   "delete": 1
+  },
+  {
+   "role": "Rental Agent",
+   "read": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "report": 1,
+   "share": 1,
+   "write": 1,
+   "create": 1,
+   "submit": 1,
+   "cancel": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "is_submittable": 1,
+ "track_changes": 1,
+ "naming_rule": "By \"Naming Series\" field",
+ "title_field": "customer_name"
+}

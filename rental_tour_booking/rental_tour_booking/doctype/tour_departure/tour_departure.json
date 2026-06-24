@@ -1,0 +1,162 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-01-01 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "tour_package",
+  "departure_date",
+  "return_date",
+  "status",
+  "cb1",
+  "price_per_person",
+  "total_seats",
+  "available_seats",
+  "guide",
+  "sb_notes",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "tour_package",
+   "fieldtype": "Link",
+   "label": "Tour Package",
+   "options": "Tour Package",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "departure_date",
+   "fieldtype": "Date",
+   "label": "Departure Date",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "return_date",
+   "fieldtype": "Date",
+   "label": "Return Date",
+   "read_only": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Scheduled\nConfirmed\nFull\nDeparted\nCancelled",
+   "default": "Scheduled",
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "cb1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "price_per_person",
+   "fieldtype": "Currency",
+   "label": "Price Per Person",
+   "fetch_from": "tour_package.price_per_person",
+   "fetch_if_empty": 1
+  },
+  {
+   "fieldname": "total_seats",
+   "fieldtype": "Int",
+   "label": "Total Seats",
+   "reqd": 1
+  },
+  {
+   "fieldname": "available_seats",
+   "fieldtype": "Int",
+   "label": "Available Seats",
+   "read_only": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "guide",
+   "fieldtype": "Data",
+   "label": "Guide"
+  },
+  {
+   "fieldname": "sb_notes",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-01-01 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Rental Tour Booking",
+ "name": "Tour Departure",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "report": 1,
+   "share": 1,
+   "write": 1,
+   "create": 1,
+   "submit": 1,
+   "cancel": 1,
+   "delete": 1
+  },
+  {
+   "role": "Rental Manager",
+   "read": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "report": 1,
+   "share": 1,
+   "write": 1,
+   "create": 1,
+   "submit": 1,
+   "cancel": 1,
+   "delete": 1
+  },
+  {
+   "role": "Tour Manager",
+   "read": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "report": 1,
+   "share": 1,
+   "write": 1,
+   "create": 1,
+   "submit": 1,
+   "cancel": 1,
+   "delete": 1
+  },
+  {
+   "role": "Rental Agent",
+   "read": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "report": 1,
+   "share": 1,
+   "write": 1,
+   "create": 1,
+   "submit": 1,
+   "cancel": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "autoname": "format:TD-{tour_package}-{departure_date}",
+ "naming_rule": "Expression",
+ "track_changes": 1
+}

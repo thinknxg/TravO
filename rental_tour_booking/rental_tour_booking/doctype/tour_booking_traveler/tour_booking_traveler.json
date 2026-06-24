@@ -1,0 +1,74 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-01-01 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "traveler_name",
+  "traveler_type",
+  "passport_no",
+  "nationality",
+  "date_of_birth",
+  "contact"
+ ],
+ "fields": [
+  {
+   "fieldname": "traveler_name",
+   "fieldtype": "Data",
+   "label": "Traveler Name",
+   "reqd": 1,
+   "in_list_view": 1,
+   "columns": 2
+  },
+  {
+   "fieldname": "traveler_type",
+   "fieldtype": "Select",
+   "label": "Traveler Type",
+   "options": "Adult\nChild",
+   "default": "Adult",
+   "in_list_view": 1,
+   "columns": 1
+  },
+  {
+   "fieldname": "passport_no",
+   "fieldtype": "Data",
+   "label": "Passport No",
+   "in_list_view": 1,
+   "columns": 2
+  },
+  {
+   "fieldname": "nationality",
+   "fieldtype": "Data",
+   "label": "Nationality",
+   "in_list_view": 1,
+   "columns": 2
+  },
+  {
+   "fieldname": "date_of_birth",
+   "fieldtype": "Date",
+   "label": "Date Of Birth",
+   "in_list_view": 1,
+   "columns": 2
+  },
+  {
+   "fieldname": "contact",
+   "fieldtype": "Data",
+   "label": "Contact",
+   "in_list_view": 1,
+   "columns": 2
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-01-01 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Rental Tour Booking",
+ "name": "Tour Booking Traveler",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "istable": 1
+}

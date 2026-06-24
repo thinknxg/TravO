@@ -1,0 +1,94 @@
+{% extends "templates/web.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block head_include %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#15212B;--sand:#F3EBDD;--paper:#FBF7F0;--coral:#E8593E;--teal:#2E7D74;--line:#E3D8C6;--muted:#6B6256;}
+  .rt-wrap{font-family:'Inter',system-ui,sans-serif;color:var(--ink);max-width:1180px;margin:0 auto;padding:0 20px 80px}
+  .rt-hero{padding:64px 0 40px;border-bottom:1px solid var(--line)}
+  .rt-eyebrow{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--teal);font-weight:600;margin:0 0 14px}
+  .rt-hero h1{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:clamp(34px,5vw,56px);line-height:1.02;margin:0;max-width:16ch}
+  .rt-hero p{color:var(--muted);font-size:17px;max-width:48ch;margin:18px 0 0}
+  .rt-filters{display:flex;flex-wrap:wrap;gap:10px;margin:32px 0 8px}
+  .rt-chip{border:1px solid var(--line);background:transparent;border-radius:999px;padding:8px 16px;font-size:13px;font-weight:500;cursor:pointer;color:var(--ink);transition:.15s}
+  .rt-chip:hover{border-color:var(--ink)}
+  .rt-chip.active{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .rt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:22px;margin-top:32px}
+  .rt-card{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff;display:flex;flex-direction:column;transition:.18s}
+  .rt-card:hover{transform:translateY(-3px);box-shadow:0 14px 30px -18px rgba(21,33,43,.4)}
+  .rt-thumb{aspect-ratio:16/9;background:linear-gradient(135deg,#dfeae6,var(--sand));position:relative;display:flex;align-items:flex-end;padding:14px}
+  .rt-thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .rt-tag{position:relative;z-index:1;background:rgba(21,33,43,.85);color:var(--paper);font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;padding:5px 11px;border-radius:6px}
+  .rt-body{padding:18px;display:flex;flex-direction:column;gap:8px;flex:1}
+  .rt-dest{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--coral);font-weight:600}
+  .rt-name{font-family:'Fraunces',serif;font-size:21px;font-weight:600;margin:0;line-height:1.12}
+  .rt-dur{font-size:13px;color:var(--muted)}
+  .rt-foot{margin-top:auto;display:flex;align-items:flex-end;justify-content:space-between;padding-top:12px;border-top:1px solid var(--line)}
+  .rt-price small{display:block;color:var(--muted);font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+  .rt-price b{font-family:'Fraunces',serif;font-size:24px}
+  .rt-book{background:var(--teal);color:#fff;text-decoration:none;font-weight:600;font-size:13px;padding:9px 16px;border-radius:9px;transition:.15s}
+  .rt-book:hover{background:#256a62;color:#fff}
+  .rt-empty{padding:60px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:14px;margin-top:32px}
+</style>
+{% endblock %}
+
+{% block page_content %}
+<div class="rt-wrap">
+  <header class="rt-hero">
+    <p class="rt-eyebrow">Curated journeys</p>
+    <h1>Tours worth taking the long way for.</h1>
+    <p>From desert escapes to coastal road trips, browse our packages and book your seats. Prices per person in {{ currency }}, before VAT.</p>
+  </header>
+
+  <div class="rt-filters">
+    <button class="rt-chip active" data-dest="all">All destinations</button>
+    {% for d in destinations %}
+    <button class="rt-chip" data-dest="{{ d.name }}">{{ d.destination_name }}</button>
+    {% endfor %}
+  </div>
+
+  {% if packages %}
+  <div class="rt-grid" id="rt-grid">
+    {% for p in packages %}
+    <article class="rt-card" data-dest="{{ p.destination }}">
+      <div class="rt-thumb">
+        {% if p.image %}<img src="{{ p.image }}" alt="{{ p.package_name }}">{% endif %}
+        <span class="rt-tag">{{ p.tour_type }}</span>
+      </div>
+      <div class="rt-body">
+        <span class="rt-dest">{{ p.destination or "Multi-stop" }}</span>
+        <h3 class="rt-name">{{ p.package_name }}</h3>
+        <div class="rt-dur">{{ p.duration_days }} days &middot; {{ p.duration_nights }} nights</div>
+        <div class="rt-foot">
+          <div class="rt-price"><small>from</small><b>{{ "%.0f"|format(p.price_per_person or 0) }}</b> {{ currency }}</div>
+          <a class="rt-book" href="/book-tour?package={{ p.name }}">Book seats</a>
+        </div>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="rt-empty">No tour packages are published yet. Please check back soon.</div>
+  {% endif %}
+</div>
+
+<script>
+(function(){
+  var chips=document.querySelectorAll('.rt-chip');
+  var cards=document.querySelectorAll('#rt-grid .rt-card');
+  chips.forEach(function(chip){
+    chip.addEventListener('click',function(){
+      chips.forEach(function(c){c.classList.remove('active')});
+      chip.classList.add('active');
+      var d=chip.dataset.dest;
+      cards.forEach(function(card){
+        card.style.display=(d==='all'||card.dataset.dest===d)?'':'none';
+      });
+    });
+  });
+})();
+</script>
+{% endblock %}

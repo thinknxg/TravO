@@ -1,0 +1,346 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-01-01 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "customer",
+  "customer_name",
+  "contact_phone",
+  "contact_email",
+  "cb1",
+  "status",
+  "booking_date",
+  "sb_tour",
+  "tour_package",
+  "tour_departure",
+  "departure_date",
+  "cb2",
+  "price_per_person",
+  "child_price",
+  "num_adults",
+  "num_children",
+  "sb_travelers",
+  "travelers",
+  "sb_charges",
+  "base_amount",
+  "discount_amount",
+  "cb3",
+  "net_amount",
+  "vat_rate",
+  "vat_amount",
+  "grand_total",
+  "sb_payment",
+  "paid_amount",
+  "cb4",
+  "outstanding_amount",
+  "sb_accounting",
+  "sales_invoice",
+  "sb_terms",
+  "special_requests",
+  "terms",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Naming Series",
+   "options": "TPB-.YYYY.-",
+   "default": "TPB-.YYYY.-",
+   "hidden": 1
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "label": "Customer",
+   "options": "Customer",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "label": "Customer Name",
+   "fetch_from": "customer.customer_name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "contact_phone",
+   "fieldtype": "Data",
+   "label": "Contact Phone"
+  },
+  {
+   "fieldname": "contact_email",
+   "fieldtype": "Data",
+   "label": "Contact Email"
+  },
+  {
+   "fieldname": "cb1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Draft\nConfirmed\nPaid\nCompleted\nCancelled",
+   "default": "Draft",
+   "read_only": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "booking_date",
+   "fieldtype": "Date",
+   "label": "Booking Date",
+   "default": "Today"
+  },
+  {
+   "fieldname": "sb_tour",
+   "fieldtype": "Section Break",
+   "label": "Tour Details"
+  },
+  {
+   "fieldname": "tour_package",
+   "fieldtype": "Link",
+   "label": "Tour Package",
+   "options": "Tour Package",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "tour_departure",
+   "fieldtype": "Link",
+   "label": "Tour Departure",
+   "options": "Tour Departure"
+  },
+  {
+   "fieldname": "departure_date",
+   "fieldtype": "Date",
+   "label": "Departure Date",
+   "fetch_from": "tour_departure.departure_date",
+   "read_only": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "cb2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "price_per_person",
+   "fieldtype": "Currency",
+   "label": "Price Per Person",
+   "fetch_from": "tour_package.price_per_person",
+   "fetch_if_empty": 1
+  },
+  {
+   "fieldname": "child_price",
+   "fieldtype": "Currency",
+   "label": "Child Price",
+   "fetch_from": "tour_package.child_price",
+   "fetch_if_empty": 1
+  },
+  {
+   "fieldname": "num_adults",
+   "fieldtype": "Int",
+   "label": "Num Adults",
+   "default": "1",
+   "reqd": 1
+  },
+  {
+   "fieldname": "num_children",
+   "fieldtype": "Int",
+   "label": "Num Children",
+   "default": "0"
+  },
+  {
+   "fieldname": "sb_travelers",
+   "fieldtype": "Section Break",
+   "label": "Travelers"
+  },
+  {
+   "fieldname": "travelers",
+   "fieldtype": "Table",
+   "label": "Travelers",
+   "options": "Tour Booking Traveler"
+  },
+  {
+   "fieldname": "sb_charges",
+   "fieldtype": "Section Break",
+   "label": "Charges"
+  },
+  {
+   "fieldname": "base_amount",
+   "fieldtype": "Currency",
+   "label": "Base Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "discount_amount",
+   "fieldtype": "Currency",
+   "label": "Discount Amount"
+  },
+  {
+   "fieldname": "cb3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "net_amount",
+   "fieldtype": "Currency",
+   "label": "Net Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "vat_rate",
+   "fieldtype": "Percent",
+   "label": "VAT Rate (%)"
+  },
+  {
+   "fieldname": "vat_amount",
+   "fieldtype": "Currency",
+   "label": "Vat Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "grand_total",
+   "fieldtype": "Currency",
+   "label": "Grand Total",
+   "read_only": 1,
+   "in_list_view": 1,
+   "bold": 1
+  },
+  {
+   "fieldname": "sb_payment",
+   "fieldtype": "Section Break",
+   "label": "Payment"
+  },
+  {
+   "fieldname": "paid_amount",
+   "fieldtype": "Currency",
+   "label": "Paid Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "cb4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "outstanding_amount",
+   "fieldtype": "Currency",
+   "label": "Outstanding Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sb_accounting",
+   "fieldtype": "Section Break",
+   "label": "Accounting",
+   "depends_on": "eval:doc.sales_invoice"
+  },
+  {
+   "fieldname": "sales_invoice",
+   "fieldtype": "Link",
+   "label": "Sales Invoice",
+   "options": "Sales Invoice",
+   "read_only": 1,
+   "no_copy": 1,
+   "depends_on": "sales_invoice"
+  },
+  {
+   "fieldname": "sb_terms",
+   "fieldtype": "Section Break",
+   "label": "Requests & Terms"
+  },
+  {
+   "fieldname": "special_requests",
+   "fieldtype": "Small Text",
+   "label": "Special Requests"
+  },
+  {
+   "fieldname": "terms",
+   "fieldtype": "Text Editor",
+   "label": "Terms"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "options": "Tour Package Booking",
+   "read_only": 1,
+   "no_copy": 1,
+   "print_hide": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-01-01 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Rental Tour Booking",
+ "name": "Tour Package Booking",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "report": 1,
+   "share": 1,
+   "write": 1,
+   "create": 1,
+   "submit": 1,
+   "cancel": 1,
+   "delete": 1
+  },
+  {
+   "role": "Rental Manager",
+   "read": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "report": 1,
+   "share": 1,
+   "write": 1,
+   "create": 1,
+   "submit": 1,
+   "cancel": 1,
+   "delete": 1
+  },
+  {
+   "role": "Tour Manager",
+   "read": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "report": 1,
+   "share": 1,
+   "write": 1,
+   "create": 1,
+   "submit": 1,
+   "cancel": 1,
+   "delete": 1
+  },
+  {
+   "role": "Rental Agent",
+   "read": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "report": 1,
+   "share": 1,
+   "write": 1,
+   "create": 1,
+   "submit": 1,
+   "cancel": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "is_submittable": 1,
+ "track_changes": 1,
+ "naming_rule": "By \"Naming Series\" field",
+ "title_field": "customer_name"
+}

@@ -1,0 +1,213 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-01-01 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "package_name",
+  "destination",
+  "tour_type",
+  "is_active",
+  "cb1",
+  "duration_days",
+  "duration_nights",
+  "min_pax",
+  "max_pax",
+  "image",
+  "sb_price",
+  "price_per_person",
+  "cb2",
+  "child_price",
+  "sb_itin",
+  "itinerary",
+  "sb_incl",
+  "inclusions",
+  "sb_desc",
+  "description"
+ ],
+ "fields": [
+  {
+   "fieldname": "package_name",
+   "fieldtype": "Data",
+   "label": "Package Name",
+   "reqd": 1,
+   "unique": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "destination",
+   "fieldtype": "Link",
+   "label": "Destination",
+   "options": "Tour Destination",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "tour_type",
+   "fieldtype": "Select",
+   "label": "Tour Type",
+   "options": "Group\nPrivate\nSelf-Drive",
+   "default": "Group",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "is_active",
+   "fieldtype": "Check",
+   "label": "Is Active",
+   "default": "1"
+  },
+  {
+   "fieldname": "cb1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "duration_days",
+   "fieldtype": "Int",
+   "label": "Duration Days",
+   "reqd": 1
+  },
+  {
+   "fieldname": "duration_nights",
+   "fieldtype": "Int",
+   "label": "Duration Nights"
+  },
+  {
+   "fieldname": "min_pax",
+   "fieldtype": "Int",
+   "label": "Min Pax",
+   "default": "1"
+  },
+  {
+   "fieldname": "max_pax",
+   "fieldtype": "Int",
+   "label": "Max Pax"
+  },
+  {
+   "fieldname": "image",
+   "fieldtype": "Attach Image",
+   "label": "Image"
+  },
+  {
+   "fieldname": "sb_price",
+   "fieldtype": "Section Break",
+   "label": "Pricing"
+  },
+  {
+   "fieldname": "price_per_person",
+   "fieldtype": "Currency",
+   "label": "Price Per Person",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "cb2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "child_price",
+   "fieldtype": "Currency",
+   "label": "Child Price"
+  },
+  {
+   "fieldname": "sb_itin",
+   "fieldtype": "Section Break",
+   "label": "Itinerary"
+  },
+  {
+   "fieldname": "itinerary",
+   "fieldtype": "Table",
+   "label": "Itinerary",
+   "options": "Tour Itinerary Item"
+  },
+  {
+   "fieldname": "sb_incl",
+   "fieldtype": "Section Break",
+   "label": "Inclusions"
+  },
+  {
+   "fieldname": "inclusions",
+   "fieldtype": "Table",
+   "label": "Inclusions",
+   "options": "Tour Package Inclusion"
+  },
+  {
+   "fieldname": "sb_desc",
+   "fieldtype": "Section Break",
+   "label": "Description"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text Editor",
+   "label": "Description"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-01-01 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Rental Tour Booking",
+ "name": "Tour Package",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "report": 1,
+   "share": 1,
+   "write": 1,
+   "create": 1,
+   "submit": 1,
+   "cancel": 1,
+   "delete": 1
+  },
+  {
+   "role": "Rental Manager",
+   "read": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "report": 1,
+   "share": 1,
+   "write": 1,
+   "create": 1,
+   "submit": 1,
+   "cancel": 1,
+   "delete": 1
+  },
+  {
+   "role": "Tour Manager",
+   "read": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "report": 1,
+   "share": 1,
+   "write": 1,
+   "create": 1,
+   "submit": 1,
+   "cancel": 1,
+   "delete": 1
+  },
+  {
+   "role": "Rental Agent",
+   "read": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "report": 1,
+   "share": 1,
+   "write": 1,
+   "create": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "autoname": "field:package_name",
+ "naming_rule": "By fieldname",
+ "search_fields": "package_name,destination",
+ "track_changes": 1
+}

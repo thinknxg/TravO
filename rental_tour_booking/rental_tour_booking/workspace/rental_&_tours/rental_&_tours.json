@@ -1,0 +1,243 @@
+{
+ "charts": [
+  {
+   "chart_name": "Monthly Booking Revenue",
+   "label": "Monthly Booking Revenue"
+  }
+ ],
+ "content": "[{\"id\": \"hdr\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Rental &amp; Tours</b></span>\", \"col\": 12}}, {\"id\": \"nc1\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Outstanding Rental Receivables\", \"col\": 4}}, {\"id\": \"nc2\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Active Rentals\", \"col\": 4}}, {\"id\": \"nc3\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Tour Revenue This Period\", \"col\": 4}}, {\"id\": \"ch1\", \"type\": \"chart\", \"data\": {\"chart_name\": \"Monthly Booking Revenue\", \"col\": 12}}, {\"id\": \"spacer\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"sc\", \"type\": \"card\", \"data\": {\"card_name\": \"Bookings\", \"col\": 4}}, {\"id\": \"sc2\", \"type\": \"card\", \"data\": {\"card_name\": \"Fleet\", \"col\": 4}}, {\"id\": \"sc3\", \"type\": \"card\", \"data\": {\"card_name\": \"Tours\", \"col\": 4}}, {\"id\": \"sc4\", \"type\": \"card\", \"data\": {\"card_name\": \"Reports\", \"col\": 4}}, {\"id\": \"sc5\", \"type\": \"card\", \"data\": {\"card_name\": \"Settings\", \"col\": 4}}]",
+ "creation": "2025-01-01 00:00:00.000000",
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "rocket",
+ "idx": 0,
+ "is_hidden": 0,
+ "label": "Rental & Tours",
+ "links": [
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Bookings",
+   "link_count": 3,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Car Rental Booking",
+   "link_count": 0,
+   "link_to": "Car Rental Booking",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Tour Package Booking",
+   "link_count": 0,
+   "link_to": "Tour Package Booking",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Booking Payment",
+   "link_count": 0,
+   "link_to": "Booking Payment",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Fleet",
+   "link_count": 4,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Rental Vehicle",
+   "link_count": 0,
+   "link_to": "Rental Vehicle",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Vehicle Category",
+   "link_count": 0,
+   "link_to": "Vehicle Category",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Rental Location",
+   "link_count": 0,
+   "link_to": "Rental Location",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Rental Extra",
+   "link_count": 0,
+   "link_to": "Rental Extra",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Tours",
+   "link_count": 3,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Tour Package",
+   "link_count": 0,
+   "link_to": "Tour Package",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Tour Destination",
+   "link_count": 0,
+   "link_to": "Tour Destination",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Tour Departure",
+   "link_count": 0,
+   "link_to": "Tour Departure",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Reports",
+   "link_count": 2,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Active Rentals",
+   "link_count": 0,
+   "link_to": "Active Rentals",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Upcoming Departures",
+   "link_count": 0,
+   "link_to": "Upcoming Departures",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Settings",
+   "link_count": 1,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Rental Tour Settings",
+   "link_count": 0,
+   "link_to": "Rental Tour Settings",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  }
+ ],
+ "modified": "2025-01-01 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Rental Tour Booking",
+ "name": "Rental & Tours",
+ "number_cards": [
+  {
+   "label": "Outstanding Rental Receivables"
+  },
+  {
+   "label": "Active Rentals"
+  },
+  {
+   "label": "Tour Revenue This Period"
+  }
+ ],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [],
+ "sequence_id": 1.0,
+ "shortcuts": [
+  {
+   "color": "Orange",
+   "label": "Car Rental Booking",
+   "link_to": "Car Rental Booking",
+   "type": "DocType",
+   "doc_view": "List"
+  },
+  {
+   "color": "Blue",
+   "label": "Tour Package Booking",
+   "link_to": "Tour Package Booking",
+   "type": "DocType",
+   "doc_view": "List"
+  },
+  {
+   "color": "Green",
+   "label": "Available Vehicles",
+   "link_to": "Rental Vehicle",
+   "type": "DocType",
+   "doc_view": "List",
+   "stats_filter": "{\"status\": \"Available\"}"
+  },
+  {
+   "color": "Grey",
+   "label": "Tour Packages",
+   "link_to": "Tour Package",
+   "type": "DocType",
+   "doc_view": "List"
+  }
+ ],
+ "title": "Rental & Tours"
+}

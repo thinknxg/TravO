@@ -1,0 +1,70 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-01-01 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "extra",
+  "charge_type",
+  "rate",
+  "qty_days",
+  "amount"
+ ],
+ "fields": [
+  {
+   "fieldname": "extra",
+   "fieldtype": "Link",
+   "label": "Extra",
+   "options": "Rental Extra",
+   "in_list_view": 1,
+   "columns": 3,
+   "reqd": 1
+  },
+  {
+   "fieldname": "charge_type",
+   "fieldtype": "Select",
+   "label": "Charge Type",
+   "options": "Per Day\nFlat",
+   "fetch_from": "extra.charge_type",
+   "in_list_view": 1,
+   "columns": 2,
+   "read_only": 1
+  },
+  {
+   "fieldname": "rate",
+   "fieldtype": "Currency",
+   "label": "Rate",
+   "in_list_view": 1,
+   "columns": 2
+  },
+  {
+   "fieldname": "qty_days",
+   "fieldtype": "Int",
+   "label": "Days / Qty",
+   "default": "1",
+   "in_list_view": 1,
+   "columns": 2
+  },
+  {
+   "fieldname": "amount",
+   "fieldtype": "Currency",
+   "label": "Amount",
+   "read_only": 1,
+   "in_list_view": 1,
+   "columns": 3
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-01-01 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Rental Tour Booking",
+ "name": "Rental Booking Extra",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "istable": 1
+}

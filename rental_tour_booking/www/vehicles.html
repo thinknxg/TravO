@@ -1,0 +1,104 @@
+{% extends "templates/web.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block head_include %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#15212B; --sand:#F3EBDD; --paper:#FBF7F0;
+    --coral:#E8593E; --teal:#2E7D74; --line:#E3D8C6; --muted:#6B6256;
+  }
+  .rt-wrap{font-family:'Inter',system-ui,sans-serif;color:var(--ink);max-width:1180px;margin:0 auto;padding:0 20px 80px}
+  .rt-hero{padding:64px 0 40px;border-bottom:1px solid var(--line)}
+  .rt-eyebrow{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--coral);font-weight:600;margin:0 0 14px}
+  .rt-hero h1{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:clamp(34px,5vw,56px);line-height:1.02;margin:0;max-width:14ch}
+  .rt-hero p{color:var(--muted);font-size:17px;max-width:46ch;margin:18px 0 0}
+  .rt-filters{display:flex;flex-wrap:wrap;gap:10px;margin:32px 0 8px}
+  .rt-chip{border:1px solid var(--line);background:transparent;border-radius:999px;padding:8px 16px;font-size:13px;font-weight:500;cursor:pointer;color:var(--ink);transition:.15s}
+  .rt-chip:hover{border-color:var(--ink)}
+  .rt-chip.active{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .rt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:22px;margin-top:32px}
+  .rt-card{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff;display:flex;flex-direction:column;transition:.18s}
+  .rt-card:hover{transform:translateY(-3px);box-shadow:0 14px 30px -18px rgba(21,33,43,.4)}
+  .rt-thumb{aspect-ratio:16/10;background:linear-gradient(135deg,var(--sand),#e8ddc8);display:flex;align-items:center;justify-content:center;position:relative}
+  .rt-thumb img{width:100%;height:100%;object-fit:cover}
+  .rt-plate{position:absolute;left:14px;bottom:14px;background:var(--ink);color:#F7D74A;font-family:'Fraunces',serif;font-weight:600;letter-spacing:.06em;padding:5px 12px;border-radius:6px;font-size:13px;border:2px solid #F7D74A}
+  .rt-body{padding:18px 18px 20px;display:flex;flex-direction:column;gap:10px;flex:1}
+  .rt-cat{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);font-weight:600}
+  .rt-name{font-family:'Fraunces',serif;font-size:20px;font-weight:600;margin:0;line-height:1.1}
+  .rt-specs{display:flex;flex-wrap:wrap;gap:8px;font-size:12px;color:var(--muted);margin-top:2px}
+  .rt-specs span{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:3px 8px}
+  .rt-foot{margin-top:auto;display:flex;align-items:flex-end;justify-content:space-between;padding-top:8px;border-top:1px solid var(--line)}
+  .rt-price b{font-family:'Fraunces',serif;font-size:24px}
+  .rt-price small{color:var(--muted);font-size:12px}
+  .rt-book{background:var(--coral);color:#fff;text-decoration:none;font-weight:600;font-size:13px;padding:9px 16px;border-radius:9px;transition:.15s}
+  .rt-book:hover{background:#cf492f;color:#fff}
+  .rt-empty{padding:60px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:14px;margin-top:32px}
+  @media(max-width:600px){.rt-hero{padding:40px 0 28px}}
+</style>
+{% endblock %}
+
+{% block page_content %}
+<div class="rt-wrap">
+  <header class="rt-hero">
+    <p class="rt-eyebrow">Fleet &middot; Self-drive &amp; chauffeur</p>
+    <h1>Pick your ride for the road ahead.</h1>
+    <p>Browse the available fleet, compare daily rates, and reserve in a couple of taps. Prices shown in {{ currency }}, before VAT.</p>
+  </header>
+
+  <div class="rt-filters" id="rt-filters">
+    <button class="rt-chip active" data-cat="all">All vehicles</button>
+    {% for c in categories %}
+    <button class="rt-chip" data-cat="{{ c.name }}">{{ c.category_name }}</button>
+    {% endfor %}
+  </div>
+
+  {% if vehicles %}
+  <div class="rt-grid" id="rt-grid">
+    {% for v in vehicles %}
+    <article class="rt-card" data-cat="{{ v.vehicle_category }}">
+      <div class="rt-thumb">
+        {% if v.image %}<img src="{{ v.image }}" alt="{{ v.vehicle_name }}">{% endif %}
+        <span class="rt-plate">{{ v.name }}</span>
+      </div>
+      <div class="rt-body">
+        <span class="rt-cat">{{ v.vehicle_category }}</span>
+        <h3 class="rt-name">{{ v.vehicle_name }}</h3>
+        <div class="rt-specs">
+          {% if v.year %}<span>{{ v.year }}</span>{% endif %}
+          <span>{{ v.transmission }}</span>
+          <span>{{ v.fuel_type }}</span>
+          <span>{{ v.seating_capacity }} seats</span>
+        </div>
+        <div class="rt-foot">
+          <div class="rt-price"><b>{{ "%.2f"|format(v.daily_rate or 0) }}</b> <small>{{ currency }} / day</small></div>
+          <a class="rt-book" href="/book-vehicle?vehicle={{ v.name }}">Reserve</a>
+        </div>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="rt-empty">No vehicles are available right now. Please check back soon.</div>
+  {% endif %}
+</div>
+
+<script>
+(function(){
+  var chips=document.querySelectorAll('.rt-chip');
+  var cards=document.querySelectorAll('#rt-grid .rt-card');
+  chips.forEach(function(chip){
+    chip.addEventListener('click',function(){
+      chips.forEach(function(c){c.classList.remove('active')});
+      chip.classList.add('active');
+      var cat=chip.dataset.cat;
+      cards.forEach(function(card){
+        card.style.display=(cat==='all'||card.dataset.cat===cat)?'':'none';
+      });
+    });
+  });
+})();
+</script>
+{% endblock %}

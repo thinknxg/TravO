@@ -1,0 +1,64 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-01-01 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "day",
+  "title",
+  "activity",
+  "meals_included",
+  "overnight_location"
+ ],
+ "fields": [
+  {
+   "fieldname": "day",
+   "fieldtype": "Int",
+   "label": "Day",
+   "in_list_view": 1,
+   "columns": 1
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Title",
+   "in_list_view": 1,
+   "columns": 2,
+   "reqd": 1
+  },
+  {
+   "fieldname": "activity",
+   "fieldtype": "Small Text",
+   "label": "Activity",
+   "in_list_view": 1,
+   "columns": 4
+  },
+  {
+   "fieldname": "meals_included",
+   "fieldtype": "Data",
+   "label": "Meals Included",
+   "in_list_view": 1,
+   "columns": 2
+  },
+  {
+   "fieldname": "overnight_location",
+   "fieldtype": "Data",
+   "label": "Overnight Location",
+   "in_list_view": 1,
+   "columns": 2
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-01-01 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Rental Tour Booking",
+ "name": "Tour Itinerary Item",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "istable": 1
+}

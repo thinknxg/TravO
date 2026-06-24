@@ -1,0 +1,82 @@
+{% extends "templates/web.html" %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block head_include %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#15212B;--sand:#F3EBDD;--paper:#FBF7F0;--coral:#E8593E;--teal:#2E7D74;--line:#E3D8C6;--muted:#6B6256;}
+  .mb{font-family:'Inter',system-ui,sans-serif;color:var(--ink);max-width:1000px;margin:0 auto;padding:48px 20px 80px}
+  .mb h1{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(28px,4vw,42px);margin:0 0 6px}
+  .mb .lede{color:var(--muted);margin:0 0 28px}
+  .sec{font-family:'Fraunces',serif;font-size:20px;font-weight:600;margin:34px 0 14px;display:flex;align-items:center;gap:10px}
+  .sec .dot{width:9px;height:9px;border-radius:50%}
+  table{width:100%;border-collapse:collapse;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  th,td{text-align:left;padding:12px 14px;font-size:14px;border-bottom:1px solid var(--line)}
+  th{background:var(--paper);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+  tr:last-child td{border-bottom:0}
+  .ref{font-weight:600}
+  .badge{font-size:11px;font-weight:600;padding:3px 9px;border-radius:999px;letter-spacing:.04em}
+  .b-draft{background:#eee;color:#555}.b-confirmed{background:#e6eefb;color:#1f4fa8}
+  .b-active{background:#fbeae0;color:#b5521f}.b-paid{background:#e7f3f0;color:#1c5f56}
+  .b-completed{background:#e7f3f0;color:#1c5f56}.b-cancelled{background:#fbeae6;color:#a8341d}
+  .out{font-weight:600}.out.zero{color:var(--teal)}
+  .dl{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;color:var(--ink);text-decoration:none;border:1px solid var(--line);border-radius:8px;padding:5px 10px;transition:.15s}
+  .dl:hover{border-color:var(--coral);color:var(--coral)}
+  .dl svg{width:13px;height:13px}
+  .empty{padding:30px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:12px}
+  .cta{display:inline-block;margin-top:8px;background:var(--coral);color:#fff;text-decoration:none;font-weight:600;font-size:13px;padding:8px 16px;border-radius:9px}
+</style>
+{% endblock %}
+
+{% block page_content %}
+<div class="mb">
+  <h1>My bookings</h1>
+  <p class="lede">Track your rentals and tours, and see what's still owing.</p>
+
+  <div class="sec"><span class="dot" style="background:var(--coral)"></span>Car rentals</div>
+  {% if rentals %}
+  <table>
+    <thead><tr><th>Reference</th><th>Vehicle</th><th>Pick-up</th><th>Drop-off</th><th>Status</th><th>Total</th><th>Outstanding</th><th>Agreement</th></tr></thead>
+    <tbody>
+      {% for r in rentals %}
+      <tr>
+        <td class="ref">{{ r.name }}</td>
+        <td>{{ r.vehicle }}</td>
+        <td>{{ frappe.utils.format_datetime(r.pickup_datetime, "dd MMM, HH:mm") if r.pickup_datetime else "—" }}</td>
+        <td>{{ frappe.utils.format_datetime(r.dropoff_datetime, "dd MMM, HH:mm") if r.dropoff_datetime else "—" }}</td>
+        <td><span class="badge b-{{ r.status|lower }}">{{ r.status }}</span></td>
+        <td>{{ "%.2f"|format(r.grand_total or 0) }} {{ currency }}</td>
+        <td class="out {{ 'zero' if (r.outstanding_amount or 0) <= 0 else '' }}">{{ "%.2f"|format(r.outstanding_amount or 0) }} {{ currency }}</td>
+        <td><a class="dl" href="/api/method/rental_tour_booking.api.download_booking_pdf?booking_type=Car%20Rental&name={{ r.name | urlencode }}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg>PDF</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <div class="empty">No car rentals yet.<br><a class="cta" href="/vehicles">Rent a vehicle</a></div>
+  {% endif %}
+
+  <div class="sec"><span class="dot" style="background:var(--teal)"></span>Tours</div>
+  {% if tours %}
+  <table>
+    <thead><tr><th>Reference</th><th>Package</th><th>Departs</th><th>Status</th><th>Total</th><th>Outstanding</th><th>Voucher</th></tr></thead>
+    <tbody>
+      {% for t in tours %}
+      <tr>
+        <td class="ref">{{ t.name }}</td>
+        <td>{{ t.tour_package }}</td>
+        <td>{{ frappe.utils.formatdate(t.departure_date, "dd MMM yyyy") if t.departure_date else "—" }}</td>
+        <td><span class="badge b-{{ t.status|lower }}">{{ t.status }}</span></td>
+        <td>{{ "%.2f"|format(t.grand_total or 0) }} {{ currency }}</td>
+        <td class="out {{ 'zero' if (t.outstanding_amount or 0) <= 0 else '' }}">{{ "%.2f"|format(t.outstanding_amount or 0) }} {{ currency }}</td>
+        <td><a class="dl" href="/api/method/rental_tour_booking.api.download_booking_pdf?booking_type=Tour%20Package&name={{ t.name | urlencode }}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg>PDF</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <div class="empty">No tours booked yet.<br><a class="cta" style="background:var(--teal)" href="/tours">Browse tours</a></div>
+  {% endif %}
+</div>
+{% endblock %}

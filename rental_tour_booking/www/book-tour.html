@@ -1,0 +1,137 @@
+{% extends "templates/web.html" %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block head_include %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#15212B;--sand:#F3EBDD;--paper:#FBF7F0;--coral:#E8593E;--teal:#2E7D74;--line:#E3D8C6;--muted:#6B6256;}
+  .co{font-family:'Inter',system-ui,sans-serif;color:var(--ink);max-width:960px;margin:0 auto;padding:48px 20px 80px}
+  .co h1{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(28px,4vw,40px);margin:0 0 6px}
+  .co .lede{color:var(--muted);margin:0 0 32px}
+  .grid{display:grid;grid-template-columns:1.3fr 1fr;gap:28px;align-items:start}
+  @media(max-width:760px){.grid{grid-template-columns:1fr}}
+  .panel{border:1px solid var(--line);border-radius:14px;background:#fff;padding:24px}
+  .pk-dest{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--coral);font-weight:600}
+  .pk-name{font-family:'Fraunces',serif;font-size:24px;font-weight:600;margin:2px 0 4px}
+  .pk-dur{color:var(--muted);font-size:14px;margin-bottom:8px}
+  label{display:block;font-size:13px;font-weight:600;margin:16px 0 6px}
+  input,select{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:9px;font-size:14px;font-family:inherit;background:var(--paper)}
+  input:focus,select:focus{outline:2px solid var(--teal);outline-offset:1px;border-color:transparent}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .btn{width:100%;border:0;border-radius:10px;padding:13px;font-weight:600;font-size:14px;cursor:pointer;margin-top:20px;transition:.15s}
+  .btn-go{background:var(--teal);color:#fff}.btn-go:hover{background:#256a62}
+  .btn:disabled{opacity:.45;cursor:not-allowed}
+  .summary dt{font-size:13px;color:var(--muted);margin-top:12px}
+  .summary dd{margin:2px 0 0;font-size:15px;font-weight:600}
+  .total{font-family:'Fraunces',serif;font-size:30px;font-weight:600;margin-top:6px}
+  .note{font-size:12px;color:var(--muted);margin-top:8px}
+  .alert{padding:12px 14px;border-radius:9px;font-size:14px;margin-top:14px;display:none}
+  .alert.show{display:block}.alert.bad{background:#fbeae6;color:#a8341d}
+  .done{text-align:center}.done .tick{width:54px;height:54px;border-radius:50%;background:var(--teal);color:#fff;display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 14px}
+  .missing{padding:40px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:14px}
+</style>
+{% endblock %}
+
+{% block page_content %}
+<div class="co">
+  <h1>Book your tour</h1>
+  <p class="lede">Select a departure and travellers. Prices in {{ currency }}, per person.</p>
+
+  {% if not package %}
+  <div class="missing">We couldn't find that package. <a href="/tours">Browse tours &rarr;</a></div>
+  {% else %}
+  <div class="grid">
+    <div class="panel" id="form-panel">
+      <div class="pk-dest">{{ package.destination or "Multi-stop" }} &middot; {{ package.tour_type }}</div>
+      <div class="pk-name">{{ package.package_name }}</div>
+      <div class="pk-dur">{{ package.duration_days }} days &middot; {{ package.duration_nights }} nights</div>
+
+      <label>Departure</label>
+      <select id="departure">
+        {% if departures %}
+          {% for d in departures %}
+          <option value="{{ d.name }}" data-price="{{ d.price_per_person or package.price_per_person }}" data-seats="{{ d.available_seats }}">
+            {{ frappe.utils.formatdate(d.departure_date, "dd MMM yyyy") }} &mdash; {{ d.available_seats }} seats left
+          </option>
+          {% endfor %}
+        {% else %}
+          <option value="">No scheduled departures &mdash; request a date</option>
+        {% endif %}
+      </select>
+
+      <div class="row">
+        <div><label>Adults</label><input type="number" id="adults" min="1" value="{{ package.min_pax or 1 }}"></div>
+        <div><label>Children</label><input type="number" id="children" min="0" value="0"></div>
+      </div>
+      <div class="alert" id="alert"></div>
+      <button class="btn btn-go" id="confirm-btn">Confirm booking</button>
+      <p class="note">No payment is taken now. Our team will confirm and collect payment.</p>
+    </div>
+
+    <div class="panel summary">
+      <div style="font-family:'Fraunces',serif;font-size:18px;font-weight:600">Price summary</div>
+      <dl>
+        <dt>Adult price</dt><dd>{{ "%.2f"|format(package.price_per_person or 0) }} {{ currency }}</dd>
+        <dt>Child price</dt><dd>{{ "%.2f"|format(package.child_price or 0) }} {{ currency }}</dd>
+      </dl>
+      <dt style="margin-top:16px">Estimated total (incl. VAT)</dt>
+      <div class="total"><span id="q-total">0.00</span> <span style="font-size:14px">{{ currency }}</span></div>
+    </div>
+  </div>
+  {% endif %}
+</div>
+
+<script>
+(function(){
+  var pkg = {{ package.name | tojson if package else 'null' }};
+  if(!pkg) return;
+  var adultPrice={{ package.price_per_person or 0 }};
+  var childPrice={{ package.child_price or 0 }};
+  var vat={{ (frappe.db.get_single_value("Rental Tour Settings","vat_rate") or 0) }};
+  var alertBox=document.getElementById('alert');
+  var confirmBtn=document.getElementById('confirm-btn');
+
+  function recompute(){
+    var a=parseInt(document.getElementById('adults').value||0);
+    var c=parseInt(document.getElementById('children').value||0);
+    var dep=document.getElementById('departure');
+    var p=adultPrice;
+    if(dep && dep.selectedOptions.length){var dp=parseFloat(dep.selectedOptions[0].dataset.price);if(dp)p=dp;}
+    var net=p*a+childPrice*c;
+    var total=net*(1+vat/100);
+    document.getElementById('q-total').textContent=total.toFixed(2);
+  }
+  ['adults','children','departure'].forEach(function(id){
+    document.getElementById(id).addEventListener('input',recompute);
+    document.getElementById(id).addEventListener('change',recompute);
+  });
+  recompute();
+
+  function show(cls,msg){alertBox.className='alert show '+cls;alertBox.textContent=msg;}
+
+  confirmBtn.addEventListener('click',function(){
+    var a=parseInt(document.getElementById('adults').value||0);
+    var c=parseInt(document.getElementById('children').value||0);
+    var dep=document.getElementById('departure').value||null;
+    if(a<1){show('bad','At least one adult is required.');return;}
+    confirmBtn.disabled=true;confirmBtn.textContent='Booking…';
+    frappe.call({
+      method:'rental_tour_booking.api.create_tour_request',
+      args:{tour_package:pkg,tour_departure:dep,num_adults:a,num_children:c},
+      callback:function(r){
+        var m=r.message;
+        if(m&&m.name){
+          document.getElementById('form-panel').innerHTML=
+            '<div class="done"><div class="tick">&#10003;</div>'+
+            '<div style="font-family:Fraunces,serif;font-size:22px;font-weight:600">Request received</div>'+
+            '<p class="note">Booking <b>'+m.name+'</b> is awaiting confirmation.</p>'+
+            '<a class="btn btn-go" style="display:inline-block;text-decoration:none;padding:11px 22px" href="/my-bookings">View my bookings</a></div>';
+        }else{confirmBtn.disabled=false;confirmBtn.textContent='Confirm booking';show('bad','Something went wrong. Please try again.');}
+      },
+      error:function(e){confirmBtn.disabled=false;confirmBtn.textContent='Confirm booking';show('bad','Could not complete the booking. '+((e&&e.message)||''));}
+    });
+  });
+})();
+</script>
+{% endblock %}

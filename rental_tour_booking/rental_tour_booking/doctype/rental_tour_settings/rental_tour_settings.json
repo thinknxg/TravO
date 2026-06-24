@@ -1,0 +1,173 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-01-01 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "company",
+  "default_currency",
+  "cb1",
+  "vat_rate",
+  "enable_online_booking",
+  "sb_terms",
+  "default_terms",
+  "sb_erpnext",
+  "create_sales_invoice",
+  "cb_acc",
+  "rental_item",
+  "tour_item",
+  "sb_acc2",
+  "cost_center",
+  "cb_acc2",
+  "sales_taxes_template"
+ ],
+ "fields": [
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company"
+  },
+  {
+   "fieldname": "default_currency",
+   "fieldtype": "Link",
+   "label": "Default Currency",
+   "options": "Currency",
+   "default": "OMR"
+  },
+  {
+   "fieldname": "cb1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "vat_rate",
+   "fieldtype": "Percent",
+   "label": "Default VAT Rate (%)",
+   "default": "5"
+  },
+  {
+   "fieldname": "enable_online_booking",
+   "fieldtype": "Check",
+   "label": "Enable Online Booking",
+   "default": "1"
+  },
+  {
+   "fieldname": "sb_terms",
+   "fieldtype": "Section Break",
+   "label": "Default Terms & Conditions"
+  },
+  {
+   "fieldname": "default_terms",
+   "fieldtype": "Text Editor",
+   "label": "Default Terms"
+  },
+  {
+   "fieldname": "sb_erpnext",
+   "fieldtype": "Section Break",
+   "label": "ERPNext / Accounting"
+  },
+  {
+   "fieldname": "create_sales_invoice",
+   "fieldtype": "Check",
+   "label": "Auto-create Sales Invoice on booking submit",
+   "default": "0"
+  },
+  {
+   "fieldname": "cb_acc",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "rental_item",
+   "fieldtype": "Link",
+   "options": "Item",
+   "label": "Rental Service Item",
+   "depends_on": "create_sales_invoice"
+  },
+  {
+   "fieldname": "tour_item",
+   "fieldtype": "Link",
+   "options": "Item",
+   "label": "Tour Service Item",
+   "depends_on": "create_sales_invoice"
+  },
+  {
+   "fieldname": "sb_acc2",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "cost_center",
+   "fieldtype": "Link",
+   "options": "Cost Center",
+   "label": "Cost Center",
+   "depends_on": "create_sales_invoice"
+  },
+  {
+   "fieldname": "cb_acc2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "sales_taxes_template",
+   "fieldtype": "Link",
+   "options": "Sales Taxes and Charges Template",
+   "label": "Sales Taxes Template (VAT)",
+   "depends_on": "create_sales_invoice"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-01-01 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Rental Tour Booking",
+ "name": "Rental Tour Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "report": 1,
+   "share": 1,
+   "write": 1,
+   "create": 1,
+   "submit": 1,
+   "cancel": 1,
+   "delete": 1
+  },
+  {
+   "role": "Rental Manager",
+   "read": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "report": 1,
+   "share": 1,
+   "write": 1,
+   "create": 1,
+   "submit": 1,
+   "cancel": 1,
+   "delete": 1
+  },
+  {
+   "role": "Tour Manager",
+   "read": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "report": 1,
+   "share": 1,
+   "write": 1,
+   "create": 1,
+   "submit": 1,
+   "cancel": 1,
+   "delete": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "issingle": 1,
+ "track_changes": 1
+}

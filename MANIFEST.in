@@ -1,0 +1,12 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include rental_tour_booking *.css
+recursive-include rental_tour_booking *.csv
+recursive-include rental_tour_booking *.html
+recursive-include rental_tour_booking *.js
+recursive-include rental_tour_booking *.json
+recursive-include rental_tour_booking *.py
